@@ -1,14 +1,19 @@
 import React from "react";
 
-const Form = ({ inputText, setInputText, todos, setTodos, setStatus }) => {
+const Form = ({ inputText, selectedType, setSelectedType, setInputText, todos, setTodos, setStatus }) => {
     const inputTextHandler = (event) => {
         setInputText(event.target.value);
     };
 
+    const radioHandler = (event) => {
+        console.log(event.target.value);
+        setSelectedType(event.target.value);
+    }
+
     const submitTodoHandler = (event) => {
         event.preventDefault();
         setTodos([
-            ...todos, {text: inputText, completed: false, id: Math.random() * 1000}
+            ...todos, {type: selectedType, text: inputText, completed: false, id: Math.random() * 1000}
         ]);
         setInputText("");
     };
@@ -19,12 +24,29 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus }) => {
 
     return (
         <form>
+            <p>Todo type:</p>
+
+            <div>
+                <input type="radio" onChange={radioHandler} id="home" name="type" value="home" />
+                <label htmlFor="home">Home</label>
+            </div>
+
+            <div>
+                <input type="radio" onChange={radioHandler}  id="work" name="type" value="work" />
+                <label htmlFor="work">Work</label>
+            </div>
+
+            <div>
+                <input type="radio" onChange={radioHandler} id="study" name="type" value="study" />
+                <label htmlFor="study">Study</label>
+            </div>
             <input
                 value={inputText}                
                 onChange={inputTextHandler} 
                 type="text" 
                 className="todo-input" 
             />
+
             <button onClick={submitTodoHandler} className="todo-button" type="submit">
                 <i className="fas fa-plus-square"></i>
             </button>

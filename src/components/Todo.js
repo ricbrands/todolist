@@ -15,10 +15,12 @@ const Todo = ({text, todo, todos, setTodos}) => {
             return item;
         }))
     }
-
+    console.log(todo);
     return(
         <div className="todo">
-            <li className={`todo-item ${todo.completed ? "completed" : "" }`}>{text}</li>
+            <li className={`todo-item ${todo.completed ? "completed" : ""} 
+            ${todo.type === "home" ? "home" : ""} ${todo.type === "work" ? "work" : ""}
+            ${todo.type === "study" ? "study" : ""}`}>{text}</li>
             <button onClick={completeHandler} className="complete-btn">
                 <i className="fas fa-check"></i>
             </button>
