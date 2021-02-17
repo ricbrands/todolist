@@ -1,12 +1,18 @@
 import React from "react";
 
-const Form = ({ inputText, selectedType, setSelectedType, setInputText, todos, setTodos, setStatus }) => {
+const Form = ({ inputText
+            ,selectedType
+            ,setSelectedType
+            ,setInputText
+            ,todos
+            ,setTodos
+            ,setStatus
+            ,setType }) => {
     const inputTextHandler = (event) => {
         setInputText(event.target.value);
     };
 
     const radioHandler = (event) => {
-        console.log(event.target.value);
         setSelectedType(event.target.value);
     }
 
@@ -21,6 +27,10 @@ const Form = ({ inputText, selectedType, setSelectedType, setInputText, todos, s
     const statusHandler = (event) => {
         setStatus(event.target.value);
     };
+
+    const typeHandler = (event) => {
+        setType(event.target.value);
+    }
 
     return (
         <form>
@@ -58,6 +68,18 @@ const Form = ({ inputText, selectedType, setSelectedType, setInputText, todos, s
                     <option value="all">All</option>
                     <option value="completed">Completed</option>
                     <option value="uncompleted">Uncompleted</option>
+                </select>
+            </div>
+
+            <div className="select">
+                <select                     
+                    name="type" 
+                    className="filter-todo"
+                    onChange={typeHandler}>
+                    <option value="all">All</option>
+                    <option value="home">Home</option>
+                    <option value="study">Study</option>
+                    <option value="work">Work</option>
                 </select>
             </div>
         </form>

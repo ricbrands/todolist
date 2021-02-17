@@ -7,31 +7,34 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [todos, setTodos] = useState([]);
-  const [status, setStatus] = useState("all");
   const [filteredTodos, setFilteredTodos] = useState([]);
+  const [status, setStatus] = useState("all");
+  const [type, setType] = useState("all");
 
   useEffect(() => {
     getLocalTodos();
   }, []);
 
-  useEffect(() => {
-    filterHandler();
+  useEffect(()=>{
     saveLocalTodos();
-  }, [todos, status]);
+    setFilteredTodos(todos)
+  },[todos]);
 
-  const filterHandler = () => {
-    switch(status){  
-    case 'completed':
-      setFilteredTodos(todos.filter(todo => todo.completed === true));
-      break;
-    case 'uncompleted':
-      setFilteredTodos(todos.filter(todo => todo.completed === false));
-      break;
-    default:
-      setFilteredTodos(todos);
-      break;
+  useEffect(() => {
+    let totallyFilteredTodos = todos
+    
+    if (status !== "all") {
+      const isCompleted = status === "completed" ? true : false
+      totallyFilteredTodos = totallyFilteredTodos.filter(todo => todo.completed === isCompleted)
     }
-  }
+
+    if (type !== "all") {
+      console.log('status', totallyFilteredTodos)
+      totallyFilteredTodos = totallyFilteredTodos.filter(todo => todo.type === type)
+    }
+
+    setFilteredTodos(totallyFilteredTodos)
+  }, [status, type]);
 
   const saveLocalTodos = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -41,8 +44,8 @@ function App() {
     if (localStorage.getItem("todos") === null){
       localStorage.setItem("todos", JSON.stringify([]));
     } else {
-      let todoLocal = JSON.parse(localStorage.getItem("todos"));
-      setTodos(todoLocal);
+      let todosLocal = JSON.parse(localStorage.getItem("todos"));
+      setTodos(todosLocal);
     }  
   }
 
@@ -59,11 +62,11 @@ function App() {
         setTodos={setTodos} 
         setInputText={setInputText}
         setStatus={setStatus}
+        setType={setType}
       />
       <TodoList 
         filteredTodos={filteredTodos}
         setTodos={setTodos}
-        todos={todos}
       />
     </div>
   );
